@@ -8,6 +8,8 @@ import { PlatformGame } from './games/platform/PlatformGame'
 import { AdventureGame } from './games/adventure/AdventureGame'
 import { Calculator } from './games/utility/Calculator'
 import { ChatGame } from './games/ai/ChatGame'
+import ZoomControls from './ZoomControls'
+import DraggablePanel from './DraggablePanel'
 
 // Define available environments
 const environments = [
@@ -24,6 +26,7 @@ function App() {
   const [games, setGames] = useState<Game[]>([])
   const [currentEnvironment, setCurrentEnvironment] = useState(environments[0])
   const [showInfo, setShowInfo] = useState(false)
+  const [selectedGame, setSelectedGame] = useState<Game | null>(null)
 
   // Initialize games
   useEffect(() => {
@@ -36,6 +39,11 @@ function App() {
     
     setGames(gamesList)
   }, [])
+
+  const handleSelectGame = (game: Game) => {
+    setSelectedGame(game);
+    console.log(`Selected game: ${game.getTitle()}`);
+  };
 
   return (
     <div className="app-container" style={{ backgroundColor: currentEnvironment.bgColor }}>
@@ -81,23 +89,41 @@ function App() {
       </div>
       
       <main className="app-content">
-        <div className="app-section game-library-section">
-          <h2>Game Library</h2>
+        <DraggablePanel 
+          title="Game Library" 
+          initialPosition={{ x: 20, y: 20 }}
+        >
           <GameLibrary 
             games={games} 
-            onSelectGame={(game) => console.log(`Selected game: ${game.getTitle()}`)} 
+            onSelectGame={handleSelectGame} 
           />
-        </div>
+        </DraggablePanel>
         
-        <div className="app-section devices-section">
-          <h2>Devices</h2>
+        <DraggablePanel 
+          title="Devices" 
+          initialPosition={{ x: 350, y: 20 }}
+        >
           <DeviceManager network={network} />
-        </div>
+        </DraggablePanel>
+        
+        {selectedGame && (
+          <DraggablePanel 
+            title={`Game: ${selectedGame.getTitle()}`} 
+            initialPosition={{ x: 150, y: 150 }}
+          >
+            <div>
+              <h3>{selectedGame.getTitle()}</h3>
+              <p>{selectedGame.getDescription()}</p>
+            </div>
+          </DraggablePanel>
+        )}
       </main>
       
       <footer className="app-footer">
-        <p>Drag and drop game cartridges onto devices to play. Use the + button to add more devices.</p>
+        <p>Drag panel headers to move. Use zoom controls to adjust view.</p>
       </footer>
+      
+      <ZoomControls />
     </div>
   )
 }
