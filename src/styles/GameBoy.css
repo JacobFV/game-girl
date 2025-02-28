@@ -1,0 +1,210 @@
+/* GameBoy.css - Styling for the Game Boy device */
+
+.gameboy-container {
+  position: relative;
+  width: 300px;
+  height: 480px;
+  border-radius: 12px 12px 60px 12px;
+  padding: 20px;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 20px;
+  transition: transform 0.2s ease;
+}
+
+.gameboy-container:hover {
+  transform: scale(1.02);
+}
+
+.remove-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.8);
+  border: none;
+  font-size: 20px;
+  font-weight: bold;
+  color: #ff4d4d;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 10;
+  transition: background-color 0.2s ease;
+}
+
+.remove-button:hover {
+  background-color: rgba(255, 255, 255, 1);
+}
+
+.gameboy-screen-container {
+  width: 240px;
+  height: 220px;
+  background-color: #9ca375;
+  border-radius: 8px;
+  padding: 20px;
+  margin-bottom: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.3);
+}
+
+.gameboy-screen {
+  width: 200px;
+  height: 180px;
+  background-color: #c4cfa1;
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+  border-radius: 4px;
+  box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.5);
+}
+
+.gameboy-controls {
+  display: flex;
+  justify-content: space-between;
+  width: 240px;
+  margin-bottom: 20px;
+}
+
+.gameboy-dpad {
+  position: relative;
+  width: 100px;
+  height: 100px;
+}
+
+.dpad-button {
+  position: absolute;
+  width: 30px;
+  height: 30px;
+  background-color: #333;
+  border: none;
+  cursor: pointer;
+}
+
+.dpad-up {
+  top: 0;
+  left: 35px;
+  border-radius: 5px 5px 0 0;
+}
+
+.dpad-right {
+  top: 35px;
+  right: 0;
+  border-radius: 0 5px 5px 0;
+}
+
+.dpad-down {
+  bottom: 0;
+  left: 35px;
+  border-radius: 0 0 5px 5px;
+}
+
+.dpad-left {
+  top: 35px;
+  left: 0;
+  border-radius: 5px 0 0 5px;
+}
+
+.dpad-center {
+  position: absolute;
+  top: 35px;
+  left: 35px;
+  width: 30px;
+  height: 30px;
+  background-color: #333;
+  border-radius: 5px;
+}
+
+.dpad-button.pressed {
+  background-color: #555;
+  transform: scale(0.95);
+}
+
+.gameboy-action-buttons {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  transform: rotate(-25deg);
+  margin-top: 20px;
+}
+
+.action-button {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: #ff4d4d;
+  border: none;
+  color: white;
+  font-weight: bold;
+  font-size: 16px;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.button-a {
+  background-color: #ff4d4d;
+}
+
+.button-b {
+  background-color: #ff4d4d;
+}
+
+.action-button.pressed {
+  transform: scale(0.9);
+  box-shadow: 0 2px 3px rgba(0, 0, 0, 0.1);
+}
+
+.gameboy-system-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin-bottom: 20px;
+}
+
+.system-button {
+  width: 60px;
+  height: 20px;
+  background-color: #777;
+  border: none;
+  border-radius: 10px;
+  color: white;
+  font-size: 10px;
+  cursor: pointer;
+  transform: rotate(-25deg);
+}
+
+.system-button.pressed {
+  background-color: #999;
+  transform: rotate(-25deg) scale(0.95);
+}
+
+.power-button {
+  width: 40px;
+  height: 20px;
+  background-color: #333;
+  border: none;
+  border-radius: 10px;
+  color: white;
+  font-size: 10px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+.power-button.on {
+  background-color: #4caf50;
+}
+
+.power-button.off {
+  background-color: #f44336;
+} 
