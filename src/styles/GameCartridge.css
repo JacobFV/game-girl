@@ -1,0 +1,86 @@
+.game-cartridge {
+  position: absolute;
+  width: 120px;
+  height: 140px;
+  border-radius: 6px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  display: flex;
+  flex-direction: column;
+  cursor: grab;
+  transition: transform 0.2s, box-shadow 0.2s;
+  user-select: none;
+}
+
+.game-cartridge.dragging {
+  cursor: grabbing;
+  z-index: 1000;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+  transform: scale(1.05);
+}
+
+.cartridge-top {
+  height: 15px;
+  background-color: #555;
+  border-top-left-radius: 6px;
+  border-top-right-radius: 6px;
+  position: relative;
+}
+
+.cartridge-notch {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 30px;
+  height: 5px;
+  background-color: #444;
+  border-bottom-left-radius: 3px;
+  border-bottom-right-radius: 3px;
+}
+
+.cartridge-label {
+  flex: 1;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background-color: #f0f0f0;
+  border-left: 1px solid #ddd;
+  border-right: 1px solid #ddd;
+  text-align: center;
+}
+
+.cartridge-label h4 {
+  margin: 0 0 5px 0;
+  font-size: 14px;
+  color: #333;
+  font-weight: bold;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.cartridge-label p {
+  margin: 0;
+  font-size: 10px;
+  color: #666;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  line-height: 1.3;
+}
+
+.cartridge-contacts {
+  height: 20px;
+  background: repeating-linear-gradient(
+    90deg,
+    #b8860b,
+    #b8860b 10px,
+    #d4af37 10px,
+    #d4af37 20px
+  );
+  border-bottom-left-radius: 6px;
+  border-bottom-right-radius: 6px;
+} 

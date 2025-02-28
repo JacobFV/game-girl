@@ -1,0 +1,78 @@
+.environment-selector {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background-color: rgba(255, 255, 255, 0.8);
+  border-radius: 8px;
+  padding: 10px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  z-index: 100;
+  width: 200px;
+}
+
+.environment-selector h3 {
+  margin: 0 0 10px 0;
+  font-size: 16px;
+  color: #333;
+  text-align: center;
+}
+
+.environment-options {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.environment-option {
+  display: flex;
+  align-items: center;
+  padding: 8px 12px;
+  background-color: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-align: left;
+}
+
+.environment-option:hover {
+  background-color: #f5f5f5;
+  transform: translateX(2px);
+}
+
+.environment-option.active {
+  background-color: #e6f7ff;
+  border-color: #91d5ff;
+  font-weight: bold;
+}
+
+.environment-icon {
+  font-size: 18px;
+  margin-right: 10px;
+  display: inline-block;
+  width: 24px;
+  text-align: center;
+}
+
+.environment-name {
+  font-size: 14px;
+}
+
+@media (max-width: 600px) {
+  .environment-selector {
+    width: 150px;
+  }
+  
+  .environment-option {
+    padding: 6px 8px;
+  }
+  
+  .environment-icon {
+    font-size: 16px;
+    margin-right: 8px;
+  }
+  
+  .environment-name {
+    font-size: 12px;
+  }
+} 

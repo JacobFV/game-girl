@@ -7,6 +7,7 @@ export abstract class Game {
   protected playerFacingDescription: string;
   protected developerFacingDescription: string;
   protected initialized: boolean = false;
+  protected id: string;
 
   constructor(
     title: string,
@@ -18,6 +19,7 @@ export abstract class Game {
     this.description = description;
     this.playerFacingDescription = playerFacingDescription;
     this.developerFacingDescription = developerFacingDescription;
+    this.id = `game-${title.toLowerCase().replace(/\s+/g, '-')}`;
   }
 
   // Initialize the game with the device
@@ -52,6 +54,11 @@ export abstract class Game {
   // Get the developer-facing description
   public getDeveloperFacingDescription(): string {
     return this.developerFacingDescription;
+  }
+
+  // Get the unique identifier for the game
+  public getId(): string {
+    return this.id;
   }
 
   // Abstract methods that must be implemented by game subclasses

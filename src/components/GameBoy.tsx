@@ -7,9 +7,15 @@ interface GameBoyProps {
   id: string;
   onRemove: (id: string) => void;
   onDrop?: (game: Game) => void;
+  initialPosition?: { x: number; y: number };
 }
 
-const GameBoy: React.FC<GameBoyProps> = ({ id, onRemove, onDrop }) => {
+const GameBoy: React.FC<GameBoyProps> = ({ 
+  id, 
+  onRemove, 
+  onDrop,
+  initialPosition = { x: 100, y: 100 }
+}) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [device, setDevice] = useState<GameBoyDevice | null>(null);
   const [isOn, setIsOn] = useState(false);
@@ -24,6 +30,12 @@ const GameBoy: React.FC<GameBoyProps> = ({ id, onRemove, onDrop }) => {
     start: false,
     select: false
   });
+  
+  // Dragging state
+  const [position, setPosition] = useState(initialPosition);
+  const [isDragging, setIsDragging] = useState(false);
+  const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
+  const gameboyRef = useRef<HTMLDivElement>(null);
 
   // Initialize the device when the component mounts
   useEffect(() => {
@@ -36,9 +48,9 @@ const GameBoy: React.FC<GameBoyProps> = ({ id, onRemove, onDrop }) => {
   // Update the device when button states change
   useEffect(() => {
     if (device) {
-      Object.entries(buttonStates).forEach(([button, isPressed]) => {
+      for (const [button, isPressed] of Object.entries(buttonStates)) {
         device.setButtonState(button as keyof typeof buttonStates, isPressed);
-      });
+      }
     }
   }, [buttonStates, device]);
 
@@ -74,11 +86,22 @@ const GameBoy: React.FC<GameBoyProps> = ({ id, onRemove, onDrop }) => {
   // Handle drag over
   const handleDragOver = (e: React.DragEvent) => {
     e.preventDefault();
+    if (!isDragging) {
+      e.currentTarget.classList.add('drag-over');
+    }
+  };
+
+  // Handle drag leave
+  const handleDragLeave = (e: React.DragEvent) => {
+    e.currentTarget.classList.remove('drag-over');
   };
 
   // Handle drop
   const handleDrop = (e: React.DragEvent) => {
     e.preventDefault();
+    e.currentTarget.classList.remove('drag-over');
+    
+    if (isDragging) return; // Don't process drop if we're dragging the GameBoy itself
     
     try {
       const gameData = e.dataTransfer.getData('application/json');
@@ -91,35 +114,83 @@ const GameBoy: React.FC<GameBoyProps> = ({ id, onRemove, onDrop }) => {
     }
   };
 
+  // Handle GameBoy dragging
+  const handleDragStart = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    
+    if (gameboyRef.current) {
+      const rect = gameboyRef.current.getBoundingClientRect();
+      setDragOffset({
+        x: e.clientX - rect.left,
+        y: e.clientY - rect.top
+      });
+      setIsDragging(true);
+    }
+  };
+
+  const handleDragEnd = () => {
+    setIsDragging(false);
+  };
+
+  const handleDrag = (e: React.MouseEvent) => {
+    if (isDragging) {
+      setPosition({
+        x: e.clientX - dragOffset.x,
+        y: e.clientY - dragOffset.y
+      });
+    }
+  };
+
   // Get the frame color from the device
   const frameColor = device ? device.getFrameColor() : '#8bcdcd';
 
   return (
     <div 
-      className="gameboy-container"
+      ref={gameboyRef}
+      className={`gameboy-container ${isDragging ? 'dragging' : ''}`}
       onMouseEnter={() => setIsHovering(true)}
       onMouseLeave={() => setIsHovering(false)}
       onDragOver={handleDragOver}
+      onDragLeave={handleDragLeave}
       onDrop={handleDrop}
-      style={{ backgroundColor: frameColor }}
+      onMouseDown={handleDragStart}
+      onMouseUp={handleDragEnd}
+      onMouseMove={handleDrag}
+      style={{ 
+        backgroundColor: frameColor,
+        left: `${position.x}px`,
+        top: `${position.y}px`
+      }}
     >
-      {isHovering && (
+      {isHovering && !isDragging && (
         <button 
           className="remove-button"
           onClick={() => onRemove(id)}
           aria-label="Remove Game Boy"
+          type="button"
         >
           -
         </button>
       )}
       
       <div className="gameboy-screen-container">
-        <canvas 
-          ref={canvasRef} 
-          className="gameboy-screen"
-          width={160} 
-          height={144}
-        />
+        <div className="gameboy-screen-bezel">
+          <div className="power-indicator">
+            <div className={`power-led ${isOn ? 'on' : 'off'}`} />
+            <span className="power-text">POWER</span>
+          </div>
+          <canvas 
+            ref={canvasRef} 
+            className="gameboy-screen"
+            width={160} 
+            height={144}
+          />
+        </div>
+      </div>
+      
+      <div className="gameboy-brand">
+        <span className="brand-text">GAME GIRL</span>
       </div>
       
       <div className="gameboy-controls">
@@ -130,6 +201,7 @@ const GameBoy: React.FC<GameBoyProps> = ({ id, onRemove, onDrop }) => {
             onMouseUp={() => handleButtonRelease('up')}
             onMouseLeave={() => handleButtonRelease('up')}
             aria-label="Up"
+            type="button"
           />
           <button 
             className={`dpad-button dpad-right ${buttonStates.right ? 'pressed' : ''}`}
@@ -137,6 +209,7 @@ const GameBoy: React.FC<GameBoyProps> = ({ id, onRemove, onDrop }) => {
             onMouseUp={() => handleButtonRelease('right')}
             onMouseLeave={() => handleButtonRelease('right')}
             aria-label="Right"
+            type="button"
           />
           <button 
             className={`dpad-button dpad-down ${buttonStates.down ? 'pressed' : ''}`}
@@ -144,6 +217,7 @@ const GameBoy: React.FC<GameBoyProps> = ({ id, onRemove, onDrop }) => {
             onMouseUp={() => handleButtonRelease('down')}
             onMouseLeave={() => handleButtonRelease('down')}
             aria-label="Down"
+            type="button"
           />
           <button 
             className={`dpad-button dpad-left ${buttonStates.left ? 'pressed' : ''}`}
@@ -151,6 +225,7 @@ const GameBoy: React.FC<GameBoyProps> = ({ id, onRemove, onDrop }) => {
             onMouseUp={() => handleButtonRelease('left')}
             onMouseLeave={() => handleButtonRelease('left')}
             aria-label="Left"
+            type="button"
           />
           <div className="dpad-center" />
         </div>
@@ -162,6 +237,7 @@ const GameBoy: React.FC<GameBoyProps> = ({ id, onRemove, onDrop }) => {
             onMouseUp={() => handleButtonRelease('b')}
             onMouseLeave={() => handleButtonRelease('b')}
             aria-label="B Button"
+            type="button"
           >
             B
           </button>
@@ -171,6 +247,7 @@ const GameBoy: React.FC<GameBoyProps> = ({ id, onRemove, onDrop }) => {
             onMouseUp={() => handleButtonRelease('a')}
             onMouseLeave={() => handleButtonRelease('a')}
             aria-label="A Button"
+            type="button"
           >
             A
           </button>
@@ -184,6 +261,7 @@ const GameBoy: React.FC<GameBoyProps> = ({ id, onRemove, onDrop }) => {
           onMouseUp={() => handleButtonRelease('select')}
           onMouseLeave={() => handleButtonRelease('select')}
           aria-label="Select Button"
+          type="button"
         >
           SELECT
         </button>
@@ -193,6 +271,7 @@ const GameBoy: React.FC<GameBoyProps> = ({ id, onRemove, onDrop }) => {
           onMouseUp={() => handleButtonRelease('start')}
           onMouseLeave={() => handleButtonRelease('start')}
           aria-label="Start Button"
+          type="button"
         >
           START
         </button>
@@ -202,6 +281,7 @@ const GameBoy: React.FC<GameBoyProps> = ({ id, onRemove, onDrop }) => {
         className={`power-button ${isOn ? 'on' : 'off'}`}
         onClick={handlePowerClick}
         aria-label="Power Button"
+        type="button"
       >
         {isOn ? 'OFF' : 'ON'}
       </button>

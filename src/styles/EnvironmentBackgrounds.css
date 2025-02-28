@@ -1,0 +1,76 @@
+.environment {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-position: center;
+  transition: background-image 0.5s ease;
+}
+
+.environment.desk {
+  background-image: url('../assets/backgrounds/desk.jpg');
+}
+
+.environment.bedroom {
+  background-image: url('../assets/backgrounds/bedroom.jpg');
+}
+
+.environment.outdoors {
+  background-image: url('../assets/backgrounds/outdoors.jpg');
+}
+
+.environment.arcade {
+  background-image: url('../assets/backgrounds/arcade.jpg');
+}
+
+.environment.space {
+  background-image: url('../assets/backgrounds/space.jpg');
+}
+
+/* Fallback backgrounds if images aren't available */
+.environment.desk.fallback {
+  background-color: #e0d8c0;
+  background-image: linear-gradient(45deg, #d4cbb7 25%, transparent 25%, transparent 75%, #d4cbb7 75%, #d4cbb7),
+                    linear-gradient(45deg, #d4cbb7 25%, transparent 25%, transparent 75%, #d4cbb7 75%, #d4cbb7);
+  background-size: 60px 60px;
+  background-position: 0 0, 30px 30px;
+}
+
+.environment.bedroom.fallback {
+  background-color: #c8e0e0;
+  background-image: linear-gradient(90deg, rgba(255,255,255,.07) 50%, transparent 50%),
+                    linear-gradient(90deg, rgba(255,255,255,.13) 50%, transparent 50%),
+                    linear-gradient(90deg, transparent 50%, rgba(255,255,255,.17) 50%),
+                    linear-gradient(90deg, transparent 50%, rgba(255,255,255,.19) 50%);
+  background-size: 13px, 29px, 37px, 53px;
+}
+
+.environment.outdoors.fallback {
+  background-color: #a8d8a8;
+  background-image: 
+    linear-gradient(0deg, transparent 79px, #abcea7 79px, #abcea7 81px, transparent 81px),
+    linear-gradient(90deg, transparent 79px, #abcea7 79px, #abcea7 81px, transparent 81px);
+  background-size: 80px 80px;
+}
+
+.environment.arcade.fallback {
+  background-color: #000;
+  background-image: 
+    radial-gradient(#444 15%, transparent 16%), 
+    radial-gradient(#444 15%, transparent 16%);
+  background-size: 30px 30px;
+  background-position: 0 0, 15px 15px;
+}
+
+.environment.space.fallback {
+  background-color: #000;
+  background-image: 
+    radial-gradient(white, rgba(255,255,255,.2) 2px, transparent 40px),
+    radial-gradient(white, rgba(255,255,255,.15) 1px, transparent 30px),
+    radial-gradient(white, rgba(255,255,255,.1) 2px, transparent 40px),
+    radial-gradient(rgba(255,255,255,.4), rgba(255,255,255,.1) 2px, transparent 30px);
+  background-size: 550px 550px, 350px 350px, 250px 250px, 150px 150px;
+  background-position: 0 0, 40px 60px, 130px 270px, 70px 100px;
+} 
