@@ -4,13 +4,29 @@
   position: relative;
   width: 100%;
   padding: 20px;
+  min-height: 600px;
 }
 
 .devices-container {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 30px;
+  gap: 40px;
+  padding: 20px;
+  position: relative;
+  perspective: 1000px;
+}
+
+.devices-container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: radial-gradient(circle at center, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 70%);
+  pointer-events: none;
+  z-index: -1;
 }
 
 .add-device-button {
@@ -20,7 +36,7 @@
   width: 60px;
   height: 60px;
   border-radius: 50%;
-  background-color: #4caf50;
+  background-color: #ff6b9e;
   color: white;
   font-size: 30px;
   border: none;
@@ -28,16 +44,34 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-  transition: transform 0.2s ease, background-color 0.2s ease;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  transition: transform 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease;
   z-index: 100;
 }
 
 .add-device-button:hover {
-  transform: scale(1.1);
-  background-color: #45a049;
+  transform: scale(1.1) translateY(-5px);
+  background-color: #ff4b8e;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
 }
 
 .add-device-button:active {
   transform: scale(0.95);
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
+}
+
+/* Animation for new devices */
+@keyframes deviceAppear {
+  from {
+    opacity: 0;
+    transform: translateY(20px) scale(0.8);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.gameboy-container {
+  animation: deviceAppear 0.5s ease-out forwards;
 } 

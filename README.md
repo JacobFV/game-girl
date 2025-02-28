@@ -15,18 +15,22 @@ A virtual Game Boy simulator with multiple games and networking capabilities. Cr
 The simulator includes the following games:
 
 ### Platform Game
+
 - **Player Facing**: Jump and run through platforms, collect coins, and avoid falling off the screen!
 - **Developer Facing**: Implements physics system, collision detection, and simple level design.
 
 ### Adventure Game
+
 - **Player Facing**: Explore a mysterious world, collect items, and solve puzzles to progress through different areas.
 - **Developer Facing**: Implements a state machine for game progression, tile-based map system, inventory management, and simple collision detection.
 
 ### Calculator Utility
+
 - **Player Facing**: Perform basic arithmetic operations with this handy calculator.
 - **Developer Facing**: Implements expression parsing, calculation logic, and display formatting.
 
 ### AI Chat Game
+
 - **Player Facing**: Have a conversation with a friendly AI character that responds to your messages and remembers your conversation history.
 - **Developer Facing**: Implements pattern matching responses, conversation state tracking, and character personality traits.
 
