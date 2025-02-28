@@ -32,10 +32,10 @@ const App: React.FC = () => {
     
     // Set initial positions for game cartridges
     setGamePositions({
-      [platformGame.getId()]: { x: 50, y: 100 },
-      [adventureGame.getId()]: { x: 50, y: 250 },
-      [calculatorGame.getId()]: { x: 50, y: 400 },
-      [chatGame.getId()]: { x: 50, y: 550 }
+      [platformGame.getId()]: { x: 150, y: 100 },
+      [adventureGame.getId()]: { x: 150, y: 250 },
+      [calculatorGame.getId()]: { x: 150, y: 400 },
+      [chatGame.getId()]: { x: 150, y: 550 }
     })
   }, [])
 
@@ -44,10 +44,15 @@ const App: React.FC = () => {
     const deviceId = `device-${devices.length + 1}`
     setDevices([...devices, deviceId])
     
+    // Calculate position for the new device in a grid-like pattern
+    const deviceCount = devices.length;
+    const row = Math.floor(deviceCount / 2);
+    const col = deviceCount % 2;
+    
     // Set initial position for the new device
     setDevicePositions(prev => ({
       ...prev,
-      [deviceId]: { x: 300, y: 200 }
+      [deviceId]: { x: 500 + (col * 300), y: 200 + (row * 300) }
     }))
   }
 
